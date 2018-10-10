@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     public static void main (String[] args) {
-        Union test = new Union();
+        Union test = new Union(10);
         test.connect(5,7);
         System.out.println(test.isConnected(5,7));
     }

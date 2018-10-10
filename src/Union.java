@@ -1,14 +1,20 @@
-class Union {
+public class Union {
 
-    private int [] node = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    private int[] node;
+
+    Union(int n){
+        for(int i=0; i<n; i++){
+            node = new int[i];
+        }
+    }
 
     private int root(int a) {
-
         while (node[a] != a) {
             a = node[a];
         }
         return a;
     }
+
     boolean isConnected(int a, int b){
         return root(a) == root(b);
         }
