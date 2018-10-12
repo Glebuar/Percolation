@@ -12,9 +12,12 @@ public class Percolation {                               // create n-by-n grid, 
         if (n <= 0 ) {
             throw new IllegalArgumentException(Integer.toString(n));
         }
-        for (int i = 0; i < n + 1; i++) {
-            for (int j = 0; j < n + 1; j++) {
-                site = new int[i][j];
+        site = new int [n][n];
+        int k = 1;
+        for (int i = 0; i < site.length; i++) {
+            for(int j = 0; j < site[i].length; j++) {
+                site[i][j] = k;
+                k++;
             }
         }
     }
@@ -39,7 +42,7 @@ public class Percolation {                               // create n-by-n grid, 
         }
         return site[row-1][col-1] == 1;
     }
-
+/*
     public boolean isFull(int row, int col) {            // is site (row, col) full?
         if (row < 1 || row > site.length) {
             throw new IllegalArgumentException(Integer.toString(row));
@@ -50,7 +53,7 @@ public class Percolation {                               // create n-by-n grid, 
 
     }
 
-    /*
+
     public     int numberOfOpenSites();       // number of open sites
     public boolean percolates();              // does the system percolate?
     */
@@ -58,8 +61,7 @@ public class Percolation {                               // create n-by-n grid, 
 
     public static void main (String[] args) {
         Percolation p = new Percolation(6);
-        p.open(4,3);
         System.out.println(Arrays.deepToString(p.site));
-        System.out.println(p.isOpen(4,3));
+
     }
 }
