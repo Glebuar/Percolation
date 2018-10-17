@@ -1,10 +1,13 @@
+import java.util.Arrays;
+
 public class Union {
 
-    private int[] node;
+    public int[] node;
 
     Union(int n){
+        node = new int[n];
         for(int i=0; i<n; i++){
-            node = new int[i];
+            node[i] = i;
         }
     }
 
@@ -22,13 +25,18 @@ public class Union {
 
     void connect(int a, int b){
 
-        node[a]= root(b);
+        node[root(b)] = root(a);
+    }
+
+    void print(){
+        System.out.println(Arrays.toString(node));
     }
 
     public static void main (String[] args) {
-        Union test = new Union(10);
-        test.connect(5,7);
-        test.connect(5,6);
-        System.out.println(test.isConnected(6,7));
+       // Union test = new Union(10);
+       // test.connect(5,7);
+       // test.connect(5,6);
+       // test.print();
+       // System.out.println(test.isConnected(6,7));
     }
 }
