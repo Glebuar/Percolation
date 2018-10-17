@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Union {
 
-    public int[] node;
+    private int[] node;
 
     Union(int n){
         node = new int[n];
