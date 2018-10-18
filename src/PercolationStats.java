@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class PercolationStats {
@@ -51,7 +50,6 @@ public class PercolationStats {
         int N = in.nextInt();
         int T = in.nextInt();
         PercolationStats ps = new PercolationStats(N, T);
-        System.out.println(Arrays.toString(ps.fraction));
         System.out.println("mean                    = " + ps.mean());
         System.out.println("stddev                  = " + ps.stddev());
         System.out.println("95% confidence interval = [" + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
