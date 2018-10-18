@@ -2,9 +2,9 @@ import java.util.Arrays;
 
 public class Union {
 
-    private int[] node;
+    private final int[] node;
 
-    Union(int n){
+    public Union(int n){
         node = new int[n];
         for(int i=0; i<n; i++){
             node[i] = i;
@@ -18,25 +18,18 @@ public class Union {
         return a;
     }
 
-    boolean isConnected(int a, int b){
+    public boolean isConnected(int a, int b){
 
         return root(a) == root(b);
     }
 
-    void connect(int a, int b){
+    public void connect(int a, int b){
 
         node[root(b)] = root(a);
     }
 
-    void print(){
-        System.out.println(Arrays.toString(node));
-    }
+    public void print(){
 
-    public static void main (String[] args) {
-       // Union test = new Union(10);
-       // test.connect(5,7);
-       // test.connect(5,6);
-       // test.print();
-       // System.out.println(test.isConnected(6,7));
+        System.out.println(Arrays.toString(node));
     }
 }

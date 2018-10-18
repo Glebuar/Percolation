@@ -1,114 +1,105 @@
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
-import java.util.Arrays;
-
 public class Percolation {                              // create n-by-n grid, with all sites blocked
 
-    private int[][] site;
-    private int[][] status;
-    private int n;
+    private boolean[][] status;
     private Union u;
 
     public Percolation(int n) {
         if (n <= 0 ) {
             throw new IllegalArgumentException(Integer.toString(n));
         }
-        this.n = n;
-        site = new int [n][n];//main array
-        status = new int [n][n];//open or not
-        int k = 1;
-        for (int i = 0; i < site.length; i++) {
-            for(int j = 0; j < site[i].length; j++) {
-                site[i][j] = k;
-                k++;
-            }
-        }
-        u = new Union(n*n+2);
-     /*   for (int i = 1; i <= n; i++) {
-            u.connect(0, i);
-        }
-        for (int j = n*n; j >= n*n + 1 - n; j--){
-            u.connect(n*n + 1, j);
-        }*/
+        status = new boolean [n][n];
+        u = new Union(n * n + 2);
+    }
+
+    private int getIndex (int row, int col) {
+        return (row - 1) * getSize() + col;
     }
 
     public void open(int row, int col) {                // open site (row, col) if it is not open already
         isCorrectCoordinates(row, col);
-        if(!isOpen(row,col)) {
-            status[row - 1][col - 1] = 1;
+        if (!isOpen(row,col)) {
+            status[row - 1][col - 1] = true;
+        }
+        if (row == 1) {
+            u.connect(0, getIndex(row, col));
+        } else {
+            if (row == getSize()) {
+                u.connect(getSize() * getSize() +1, getIndex(row, col));
+            }
         }
         if (row - 2 >= 0) {
             if (isOpen(row - 1, col)) {
-                u.connect(site[row - 2][col - 1], site[row - 1][col - 1]);
+                u.connect(getIndex(row - 1, col), getIndex(row, col));
             }
         }
-        if (row  < site.length) {
+        if (row  < getSize()) {
             if (isOpen(row + 1, col)) {
-                u.connect(site[row][col - 1], site[row - 1][col - 1]);
+                u.connect(getIndex(row + 1, col), getIndex(row, col));
             }
         }
         if (col - 2 >= 0) {
             if (isOpen(row, col - 1)) {
-                u.connect(site[row - 1][col - 2], site[row - 1][col - 1]);
+                u.connect(getIndex(row, col - 1), getIndex(row, col));
             }
         }
-        if (col < site[row - 1].length) {
+        if (col < getSize()) {
             if (isOpen(row, col + 1)) {
-                u.connect(site[row - 1][col], site[row - 1][col - 1]);
+                u.connect(getIndex(row, col +1), getIndex(row, col));
             }
         }
     }
 
-    public boolean isOpen(int row, int col) {           // is site (row, col) open?
+    public boolean isOpen(int row, int col) {          // is site (row, col) open?
         isCorrectCoordinates(row, col);
-        return status[row - 1][col - 1] == 1;
+        return status[row - 1][col - 1];
     }
 
     public boolean isFull(int row, int col) {           // is site (row, col) full?
         isCorrectCoordinates(row, col);
-        return u.isConnected(0, site[row - 1][col - 1]);
+        return u.isConnected(0, getIndex(row, col));
     }
 
-
-    public int numberOfOpenSites() {                     // number of open sites
+    public int numberOfOpenSites() {                    // number of open sites
         int count = 0;
-        for (int i = 0; i < status.length; i++) {
-            for(int j = 0; j < status[i].length; j++) {
-                if (status[i][j] == 1) {
-                    count ++;
+        for (boolean[] stat : status) {
+            for (boolean aStat : stat) {
+                if (aStat) {
+                    count++;
                 }
             }
         }
         return count;
     }
 
-    public boolean percolates() {                       // does the system percolate?
-        for (int i = 1; i <= n; i++) {
+    public boolean percolates() {                      // does the system percolate?
+        for (int i = 1; i <= getSize(); i++) {
             if (isOpen(1, i)) {
                 u.connect(0, i);
             }
         }
-        for (int j = n*n; j >= n*n + 1 - n; j--){
-            if (isOpen(n, j - n * (n - 1))) {
-                u.connect(n * n + 1, j);
+        for (int j = getSize() * getSize(); j >= getSize() * getSize() + 1 - getSize(); j--){
+            if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
+                u.connect(getSize() * getSize() + 1, j);
             }
         }
-        return u.isConnected(0, n*n + 1);
+        return u.isConnected(0, getSize() * getSize() + 1);
+    }
+
+    private int getSize() {
+        return status.length;
     }
 
     private void isCorrectCoordinates(int row, int col) {
-        if (row < 1 || row > site.length) {
+        if (row < 1 || row > getSize()) {
             throw new IllegalArgumentException(Integer.toString(row));
         }
-        if (col < 1 || col > site.length) {
+        if (col < 1 || col > getSize()) {
             throw new IllegalArgumentException(Integer.toString(col));
         }
     }
 
     public static void main (String[] args) {
-        Percolation p = new Percolation(6);
+        /*Percolation p = new Percolation(6);
         p.open(1,3);
         p.open(2,3);
         p.open(2,4);
@@ -116,8 +107,7 @@ public class Percolation {                              // create n-by-n grid, w
         p.open(4,4);
         p.open(5,4);
         p.open(6,4);
-        //System.out.println(p.numberOfOpenSites());
         System.out.println(p.percolates());
-        //p.u.print();
+        p.u.print();*/
     }
 }
