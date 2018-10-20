@@ -4,20 +4,20 @@ public class Percolation {                              // create n-by-n grid, w
     private Union u;
 
     public Percolation(int n) {
-        if (n <= 0 ) {
+        if (n <= 0) {
             throw new IllegalArgumentException(Integer.toString(n));
         }
         status = new boolean [n][n];
         u = new Union(n * n + 2);
     }
 
-    private int getIndex (int row, int col) {
+    private int getIndex(int row, int col) {
         return (row - 1) * getSize() + col;
     }
 
     public void open(int row, int col) {                // open site (row, col) if it is not open already
         isCorrectCoordinates(row, col);
-        if (!isOpen(row,col)) {
+        if (!isOpen(row, col)) {
             status[row - 1][col - 1] = true;
         }
         if (row == 1) {
@@ -77,7 +77,7 @@ public class Percolation {                              // create n-by-n grid, w
                 u.connect(0, i);
             }
         }
-        for (int j = getSize() * getSize(); j >= getSize() * getSize() + 1 - getSize(); j--){
+        for (int j = getSize() * getSize(); j >= getSize() * getSize() + 1 - getSize(); j--) {
             if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
                 u.connect(getSize() * getSize() + 1, j);
             }
@@ -98,8 +98,8 @@ public class Percolation {                              // create n-by-n grid, w
         }
     }
 
-    public static void main (String[] args) {
-        /*Percolation p = new Percolation(6);
+    public static void main(String[] args) {
+        /* Percolation p = new Percolation(6);
         p.open(1,3);
         p.open(2,3);
         p.open(2,4);
@@ -108,6 +108,6 @@ public class Percolation {                              // create n-by-n grid, w
         p.open(5,4);
         p.open(6,4);
         System.out.println(p.percolates());
-        p.u.print();*/
+        p.u.print(); */
     }
 }

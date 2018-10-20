@@ -13,11 +13,11 @@ public class PercolationStats {
         }
         fraction = new double[trials];
         for (int i = 0; i < trials; i++) {
-                fraction[i] = (double)makePercolation(n) / (n * n);
+                fraction[i] = (double) makePercolation(n) / (n * n);
             }
         }
 
-    private int makePercolation(int n){
+    private int makePercolation(int n) {
         Percolation p = new Percolation(n);
         while (!p.percolates()) {
             int a = StdRandom.uniform(n) + 1;
@@ -47,9 +47,9 @@ public class PercolationStats {
 
     public static void main(String[] args) {            // test client (described below)
         Scanner in = new Scanner(System.in);
-        int N = in.nextInt();
-        int T = in.nextInt();
-        PercolationStats ps = new PercolationStats(N, T);
+        int n = in.nextInt();
+        int t = in.nextInt();
+        PercolationStats ps = new PercolationStats(n, t);
         System.out.println("mean                    = " + ps.mean());
         System.out.println("stddev                  = " + ps.stddev());
         System.out.println("95% confidence interval = [" + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
