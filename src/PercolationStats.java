@@ -46,12 +46,16 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {            // test client (described below)
-        Scanner in = new Scanner(System.in);
+        long startTime = System.currentTimeMillis();
+        Scanner in = new Scanner(System.in, "UTF-8");
         int n = in.nextInt();
         int t = in.nextInt();
         PercolationStats ps = new PercolationStats(n, t);
         System.out.println("mean                    = " + ps.mean());
         System.out.println("stddev                  = " + ps.stddev());
         System.out.println("95% confidence interval = [" + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.format("time                    = %.3f seconds (%.3f min)", elapsedTime / 1000.0, (double) elapsedTime/60000);
     }
 }
