@@ -97,17 +97,4 @@ public class Percolation {                              // create n-by-n grid, w
             throw new IllegalArgumentException(Integer.toString(col));
         }
     }
-
-    public static void main(String[] args) {
-        /* Percolation p = new Percolation(6);
-        p.open(1,3);
-        p.open(2,3);
-        p.open(2,4);
-        p.open(3,4);
-        p.open(4,4);
-        p.open(5,4);
-        p.open(6,4);
-        System.out.println(p.percolates());
-        p.u.print(); */
-    }
 }
