@@ -18,7 +18,8 @@ public class PercolationStats {
         }
 
     private int makePercolation(int n) {
-        Percolation p = new Percolation(n);
+     //     Percolation p = new Percolation(n);
+        Percolation2 p = new Percolation2(n);
         while (!p.percolates()) {
             int a = StdRandom.uniform(n) + 1;
             int b = StdRandom.uniform(n) + 1;
