@@ -2,8 +2,8 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation2 {                              // create n-by-n grid, with all sites blocked
 
-    private boolean[][] status;
-    private WeightedQuickUnionUF u;
+    private final boolean[][] status;
+    private final WeightedQuickUnionUF u;
 
     public Percolation2(int n) {
         if (n <= 0) {
@@ -74,7 +74,7 @@ public class Percolation2 {                              // create n-by-n grid, 
     }
 
     public boolean percolates() {                      // does the system percolate?
-        for (int i = 1; i <= getSize(); i++) {
+        /*for (int i = 1; i <= getSize(); i++) {
             if (isOpen(1, i)) {
                 u.union(0, i);
             }
@@ -83,7 +83,7 @@ public class Percolation2 {                              // create n-by-n grid, 
             if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
                 u.union(getSize() * getSize() + 1, j);
             }
-        }
+        }*/
         return u.connected(0, getSize() * getSize() + 1);
     }
 
