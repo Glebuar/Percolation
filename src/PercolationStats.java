@@ -3,20 +3,24 @@ import edu.princeton.cs.algs4.StdStats;
 import java.util.Scanner;
 
 public class PercolationStats {
-    private double[] fraction;
+    // new line
+    private double[] fraction; // final
+    // new line
     private PercolationStats(int n, int trials) {       // perform trials independent experiments on an n-by-n grid
         if (n <= 0) {
-            throw new IllegalArgumentException(Integer.toString(n));
+            throw new IllegalArgumentException(
+                String.format("n should be >0 but actual value %d", n));
+            // throw new IllegalArgumentException(Integer.toString(n));
         }
         if (trials <= 0) {
             throw new IllegalArgumentException(Integer.toString(trials));
         }
         fraction = new double[trials];
         for (int i = 0; i < trials; i++) {
-                fraction[i] = (double) makePercolation(n) / (n * n);
-            }
+            fraction[i] = ((double) makePercolation(n)) / (n * n);
         }
-
+     }
+    //private double??? makePercolation(int n) {
     private int makePercolation(int n) {
      //     Percolation p = new Percolation(n);
         Percolation2 p = new Percolation2(n);
@@ -27,7 +31,7 @@ public class PercolationStats {
                 p.open(a, b);
             }
         }
-            return p.numberOfOpenSites();
+        return p.numberOfOpenSites();
     }
 
     private double mean() {                             // sample mean of percolation threshold
@@ -47,16 +51,18 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {            // test client (described below)
-        long startTime = System.currentTimeMillis();
-        Scanner in = new Scanner(System.in, "UTF-8");
-        int n = in.nextInt();
-        int t = in.nextInt();
-        PercolationStats ps = new PercolationStats(n, t);
+        final long startTime = System.currentTimeMillis();
+        final Scanner in = new Scanner(System.in, "UTF-8");
+        final int n = in.nextInt();
+        final int t = in.nextInt();
+        final PercolationStats ps = new PercolationStats(n, t);
+        // change printf %s:5
         System.out.println("mean                    = " + ps.mean());
         System.out.println("stddev                  = " + ps.stddev());
         System.out.println("95% confidence interval = [" + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.format("time                    = %.3f seconds (%.3f min)", elapsedTime / 1000.0, (double) elapsedTime/60000);
+        final long stopTime = System.currentTimeMillis();
+        final long elapsedTime = stopTime - startTime;
+        System.out.format("time                    = %.3f seconds (%.3f min)",
+                          elapsedTime / 1000.0, (double) elapsedTime/60000);
     }
 }
