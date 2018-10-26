@@ -1,13 +1,14 @@
 public class Percolation {                              // create n-by-n grid, with all sites blocked
 
-    private boolean[][] status;
-    private Union u;
+    private final boolean[][] status;
+    private final Union u;
 
     public Percolation(int n) {
         if (n <= 0) {
+            // better message
             throw new IllegalArgumentException(Integer.toString(n));
         }
-        status = new boolean [n][n];
+        status = new boolean[n][n];
         u = new Union(n * n + 2);
     }
 
@@ -24,7 +25,7 @@ public class Percolation {                              // create n-by-n grid, w
             u.connect(0, getIndex(row, col));
         } else {
             if (row == getSize()) {
-                u.connect(getSize() * getSize() +1, getIndex(row, col));
+                u.connect(getSize() * getSize() + 1, getIndex(row, col));
             }
         }
         if (row - 2 >= 0) {
@@ -72,7 +73,7 @@ public class Percolation {                              // create n-by-n grid, w
     }
 
     public boolean percolates() {                      // does the system percolate?
-        for (int i = 1; i <= getSize(); i++) {
+        /*for (int i = 1; i <= getSize(); i++) {
             if (isOpen(1, i)) {
                 u.connect(0, i);
             }
@@ -81,7 +82,7 @@ public class Percolation {                              // create n-by-n grid, w
             if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
                 u.connect(getSize() * getSize() + 1, j);
             }
-        }
+        }*/
         return u.isConnected(0, getSize() * getSize() + 1);
     }
 
