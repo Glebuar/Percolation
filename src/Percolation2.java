@@ -9,7 +9,7 @@ public class Percolation2 {                              // create n-by-n grid, 
         if (n <= 0) {
             throw new IllegalArgumentException(Integer.toString(n));
         }
-        status = new boolean [n][n];
+        status = new boolean[n][n];
         u = new WeightedQuickUnionUF(n * n + 2);
     }
 
@@ -26,7 +26,7 @@ public class Percolation2 {                              // create n-by-n grid, 
             u.union(0, getIndex(row, col));
         } else {
             if (row == getSize()) {
-                u.union(getSize() * getSize() +1, getIndex(row, col));
+                u.union(getSize() * getSize() + 1, getIndex(row, col));
             }
         }
         if (row - 2 >= 0) {
@@ -34,7 +34,7 @@ public class Percolation2 {                              // create n-by-n grid, 
                 u.union(getIndex(row - 1, col), getIndex(row, col));
             }
         }
-        if (row  < getSize()) {
+        if (row < getSize()) {
             if (isOpen(row + 1, col)) {
                 u.union(getIndex(row + 1, col), getIndex(row, col));
             }
@@ -46,7 +46,7 @@ public class Percolation2 {                              // create n-by-n grid, 
         }
         if (col < getSize()) {
             if (isOpen(row, col + 1)) {
-                u.union(getIndex(row, col +1), getIndex(row, col));
+                u.union(getIndex(row, col + 1), getIndex(row, col));
             }
         }
     }
@@ -74,16 +74,7 @@ public class Percolation2 {                              // create n-by-n grid, 
     }
 
     public boolean percolates() {                      // does the system percolate?
-        /*for (int i = 1; i <= getSize(); i++) {
-            if (isOpen(1, i)) {
-                u.union(0, i);
-            }
-        }
-        for (int j = getSize() * getSize(); j >= getSize() * getSize() + 1 - getSize(); j--) {
-            if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
-                u.union(getSize() * getSize() + 1, j);
-            }
-        }*/
+
         return u.connected(0, getSize() * getSize() + 1);
     }
 
@@ -99,5 +90,4 @@ public class Percolation2 {                              // create n-by-n grid, 
             throw new IllegalArgumentException(Integer.toString(col));
         }
     }
-
 }

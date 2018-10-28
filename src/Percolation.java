@@ -73,16 +73,7 @@ public class Percolation {                              // create n-by-n grid, w
     }
 
     public boolean percolates() {                      // does the system percolate?
-        /*for (int i = 1; i <= getSize(); i++) {
-            if (isOpen(1, i)) {
-                u.connect(0, i);
-            }
-        }
-        for (int j = getSize() * getSize(); j >= getSize() * getSize() + 1 - getSize(); j--) {
-            if (isOpen(getSize(), j - getSize() * (getSize() - 1))) {
-                u.connect(getSize() * getSize() + 1, j);
-            }
-        }*/
+
         return u.isConnected(0, getSize() * getSize() + 1);
     }
 

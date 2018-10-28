@@ -3,14 +3,12 @@ import edu.princeton.cs.algs4.StdStats;
 import java.util.Scanner;
 
 public class PercolationStats {
-    // new line
+
     private double[] fraction; // final
-    // new line
+
     private PercolationStats(int n, int trials) {       // perform trials independent experiments on an n-by-n grid
         if (n <= 0) {
-            throw new IllegalArgumentException(
-                String.format("n should be >0 but actual value %d", n));
-            // throw new IllegalArgumentException(Integer.toString(n));
+            throw new IllegalArgumentException(Integer.toString(n));
         }
         if (trials <= 0) {
             throw new IllegalArgumentException(Integer.toString(trials));
@@ -20,9 +18,9 @@ public class PercolationStats {
             fraction[i] = ((double) makePercolation(n)) / (n * n);
         }
      }
-    //private double??? makePercolation(int n) {
+
     private int makePercolation(int n) {
-     //     Percolation p = new Percolation(n);
+     // Percolation p = new Percolation(n);
         Percolation2 p = new Percolation2(n);
         while (!p.percolates()) {
             int a = StdRandom.uniform(n) + 1;

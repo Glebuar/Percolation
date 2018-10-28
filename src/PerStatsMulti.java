@@ -9,23 +9,26 @@ import java.util.concurrent.*;
 public class PerStatsMulti  {
 
     private double[] fraction;
-    
-    public PerStatsMulti(int n) {
-        fraction = new double[n];
+    private final int n;
+    private final int t;
+    public PerStatsMulti(int n, int t) {
+        this.n = n;
+        this.t = t;
+        fraction = new double[t];
     }
     
     private static class PerWorker implements Callable<Integer> {
         
         private final int n;
         
-        public PerStatsMulti(final int n) {
+        public PerWorker(final int n) {
             this.n = n;
         }
 
         @Override
         public Integer call() throws Exception {
-         // Percolation p = new Percolation(n);
-            // 4
+
+            // Percolation p = new Percolation(n);
             Percolation2 p = new Percolation2(n);
             while (!p.percolates()) {
                 int a = StdRandom.uniform(n) + 1;
@@ -43,12 +46,12 @@ public class PerStatsMulti  {
         ThreadPoolExecutor pool = (ThreadPoolExecutor) executor;
         List<Future<Integer>> list = new ArrayList<>();
         // Callable<Integer> callable = new PerStatsMulti(n);
+        int index = 0;
         for (int i = 0; i < t; i++) {
             Future<Integer> future = executor.submit(new PerWorker(n));
             list.add(future);
         }
-        // for (int i = ...)
-        // fraction = list.stream().toArray(new double[]);
+
         for (Future<Integer> fut : list) {
             try {
                 fraction[index] = (double) fut.get() / (n * n);
@@ -58,6 +61,7 @@ public class PerStatsMulti  {
             }
         }
         executor.shutdown();
+
     }
 
     private double mean() {                             // sample mean of percolation threshold
@@ -81,14 +85,11 @@ public class PerStatsMulti  {
         Scanner in = new Scanner(System.in, "UTF-8");
         int n = in.nextInt();
         int t = in.nextInt();
-        int index = 0;
-        fraction = new double[t];
-        PerStatsMulti p = PerStatsMulti(t);
+        PerStatsMulti p = new PerStatsMulti(n, t);
         p.calculate();
-
-        System.out.println("Current threads in pool = " + p.getPoolSize());
-        System.out.println("Maximum allowed threads = " + p.getMaximumPoolSize());
-        System.out.println("Total number of threads = " + p.getTaskCount());
+        //System.out.println("Current threads in pool = " + p.pool.getPoolSize());
+        //System.out.println("Maximum allowed threads = " + p.getMaximumPoolSize());
+        //System.out.println("Total number of threads = " + p.getTaskCount());
         System.out.println("mean                    = " + p.mean());
         System.out.println("stddev                  = " + p.stddev());
         System.out.println("95% confidence interval = [" + p.confidenceLo() + ", " + p.confidenceHi() + "]");
