@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.concurrent.*;
 
 public class PerStatsMulti  {
-
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(12);
     private double[] fraction;
     private final int n;
     private final int t;
@@ -18,7 +18,7 @@ public class PerStatsMulti  {
     }
     
     private static class PerWorker implements Callable<Integer> {
-        
+
         private final int n;
         
         public PerWorker(final int n) {
@@ -42,13 +42,11 @@ public class PerStatsMulti  {
     }
 
     private void calculate() {
-        ExecutorService executor = Executors.newFixedThreadPool(12);
-        ThreadPoolExecutor pool = (ThreadPoolExecutor) executor;
+
         List<Future<Integer>> list = new ArrayList<>();
-        // Callable<Integer> callable = new PerStatsMulti(n);
         int index = 0;
         for (int i = 0; i < t; i++) {
-            Future<Integer> future = executor.submit(new PerWorker(n));
+            Future<Integer> future = EXECUTOR.submit(new PerWorker(n));
             list.add(future);
         }
 
@@ -60,7 +58,7 @@ public class PerStatsMulti  {
                 throw new RuntimeException();
             }
         }
-        executor.shutdown();
+        EXECUTOR.shutdown();
 
     }
 
@@ -87,9 +85,10 @@ public class PerStatsMulti  {
         int t = in.nextInt();
         PerStatsMulti p = new PerStatsMulti(n, t);
         p.calculate();
-        //System.out.println("Current threads in pool = " + p.pool.getPoolSize());
-        //System.out.println("Maximum allowed threads = " + p.getMaximumPoolSize());
-        //System.out.println("Total number of threads = " + p.getTaskCount());
+        ThreadPoolExecutor pool = (ThreadPoolExecutor) EXECUTOR;
+        System.out.println("Current threads in POOL = " + pool.getPoolSize());
+        System.out.println("Maximum allowed threads = " + pool.getMaximumPoolSize());
+        System.out.println("Total number of threads = " + pool.getTaskCount());
         System.out.println("mean                    = " + p.mean());
         System.out.println("stddev                  = " + p.stddev());
         System.out.println("95% confidence interval = [" + p.confidenceLo() + ", " + p.confidenceHi() + "]");

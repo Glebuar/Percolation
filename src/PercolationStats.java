@@ -6,6 +6,7 @@ public class PercolationStats {
 
     private double[] fraction; // final
 
+    //O(K*N^3)
     private PercolationStats(int n, int trials) {       // perform trials independent experiments on an n-by-n grid
         if (n <= 0) {
             throw new IllegalArgumentException(Integer.toString(n));
@@ -19,10 +20,11 @@ public class PercolationStats {
         }
      }
 
+    //O(n^3)
     private int makePercolation(int n) {
-     // Percolation p = new Percolation(n);
+       // Percolation p = new Percolation(n);
         Percolation2 p = new Percolation2(n);
-        while (!p.percolates()) {
+        while (!p.percolates()) { //N*(N*(N-1))
             int a = StdRandom.uniform(n) + 1;
             int b = StdRandom.uniform(n) + 1;
             if (!p.isOpen(a, b)) {

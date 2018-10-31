@@ -3,6 +3,7 @@ public class Percolation {                              // create n-by-n grid, w
     private final boolean[][] status;
     private final Union u;
 
+    //O(n^2)
     public Percolation(int n) {
         if (n <= 0) {
             // better message
@@ -12,10 +13,12 @@ public class Percolation {                              // create n-by-n grid, w
         u = new Union(n * n + 2);
     }
 
+    //O(1)
     private int getIndex(int row, int col) {
         return (row - 1) * getSize() + col;
     }
 
+    //O(n)
     public void open(int row, int col) {                // open site (row, col) if it is not open already
         isCorrectCoordinates(row, col);
         if (!isOpen(row, col)) {
@@ -50,16 +53,19 @@ public class Percolation {                              // create n-by-n grid, w
         }
     }
 
+    //O(1)
     public boolean isOpen(int row, int col) {          // is site (row, col) open?
         isCorrectCoordinates(row, col);
         return status[row - 1][col - 1];
     }
 
+    //O(n)
     public boolean isFull(int row, int col) {           // is site (row, col) full?
         isCorrectCoordinates(row, col);
         return u.isConnected(0, getIndex(row, col));
     }
 
+    //O(n^2)
     public int numberOfOpenSites() {                    // number of open sites
         int count = 0;
         for (boolean[] stat : status) {
@@ -72,15 +78,18 @@ public class Percolation {                              // create n-by-n grid, w
         return count;
     }
 
+    //O(n)
     public boolean percolates() {                      // does the system percolate?
 
         return u.isConnected(0, getSize() * getSize() + 1);
     }
 
+    //O(1)
     private int getSize() {
         return status.length;
     }
 
+    //O(n)
     private void isCorrectCoordinates(int row, int col) {
         if (row < 1 || row > getSize()) {
             throw new IllegalArgumentException(Integer.toString(row));
